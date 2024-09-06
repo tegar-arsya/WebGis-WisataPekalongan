@@ -122,6 +122,9 @@
                             <a class="nav-link" href="{{ route('peta') }}"><i class="fas fa-map mr-1"></i> Peta</a>
                         </li>
                         <li class="nav-item">
+                            {{-- <a class="nav-link" href="{{ route('reviews') }}"><i class="fas fa-map mr-1"></i> Ulasan</a> --}}
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('laporan') }}"><i class="fas fa-file-alt mr-1"></i> Laporan</a>
                         </li>
                     </ul>

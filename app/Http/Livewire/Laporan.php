@@ -10,25 +10,29 @@ use App\Models\Kategori as ModelsKategori;
 use App\Models\Wisata as ModelsWisata;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Log;
+use App\Models\Review;
 class Laporan extends Component
 {
     public $tahun, $kategori, $wisata;
-    protected $laporans, $wisatas, $kategoris;
+    protected $laporans, $wisatas, $kategoris, $reviews;
 
     public function render()
     {
         $this->laporans = ModelsPotensi::join('wisata', 'wisata.id', '=', 'potensi_wisata.wisata_id')
         ->join('kategori', 'kategori.id', '=', 'potensi_wisata.kategori_id')
-        ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.deskripsi', 'kategori.nama_kategori')
+        ->join('review', 'review.wisata_id', '=', 'potensi_wisata.wisata_id')
+        ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.deskripsi', 'kategori.nama_kategori', 'review.wisata_id', 'review.ulasan', 'review.rating')
             ->get();
 
         $this->wisatas = ModelsWisata::where('kategori_id', $this->kategori)->get();
         $this->kategoris= ModelsKategori::all();
+        $this->reviews = Review::all();
 
         return view('livewire.laporan', [
             'laporans' => $this->laporans,
             'wisatas' => $this->wisatas,
             'kategoris' => $this->kategoris,
+            'reviews' => $this->reviews,
         ])->extends('layouts.app')->section('content');
     }
 
@@ -42,7 +46,8 @@ class Laporan extends Component
     
         $petas = ModelsPotensi::join('wisata', 'wisata.id', '=', 'potensi_wisata.wisata_id')
             ->join('kategori', 'kategori.id', '=', 'potensi_wisata.kategori_id')
-            ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.luas_wisata', 'kategori.nama_kategori', 'potensi_wisata.latitude', 'potensi_wisata.longitude')
+            ->join('review', 'review.wisata_id', '=', 'potensi_wisata.wisata_id')
+            ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.luas_wisata', 'kategori.nama_kategori', 'review.wisata_id', 'review.ulasan', 'review.rating','potensi_wisata.latitude', 'potensi_wisata.longitude')
         ->when($this->tahun, function($query) {
             return $query->whereYear('potensi_wisata.created_at', $this->tahun);
         })
@@ -78,7 +83,8 @@ public function cetakSemua()
 
     $petas = ModelsPotensi::join('wisata', 'wisata.id', '=', 'potensi_wisata.wisata_id')
         ->join('kategori', 'kategori.id', '=', 'potensi_wisata.kategori_id')
-        ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.luas_wisata', 'kategori.nama_kategori', 'potensi_wisata.latitude', 'potensi_wisata.longitude')
+        ->join('review', 'review.wisata_id', '=', 'potensi_wisata.wisata_id')
+        ->select('potensi_wisata.*', 'wisata.nama_wisata', 'wisata.luas_wisata', 'kategori.nama_kategori', 'potensi_wisata.latitude', 'review.wisata_id', 'review.ulasan', 'review.rating','potensi_wisata.longitude')
         ->get();
 
     \Illuminate\Support\Facades\Log::info('Data Semua untuk PDF:', ['petas' => $petas]);

@@ -27,8 +27,8 @@ class HomeController extends Controller
         $potensi = \App\Models\Akhir::all();
         $wisata = \App\Models\Wisata::all();
         $kategori = \App\Models\Kategori::all();
-        $review = \App\Models\Review::all();
+        $reviewsuser = \App\Models\Review::all();
 
-        return view('home', compact('kategori', 'wisata', 'potensi', 'reviews'));
+        return view('home', compact('kategori', 'wisata', 'potensi', 'reviewsuser'));
     }
 }

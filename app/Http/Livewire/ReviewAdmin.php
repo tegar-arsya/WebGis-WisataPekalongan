@@ -7,10 +7,10 @@ use Livewire\Component;
 use App\Models\Wisata;
 use App\Models\Kategori;
 use App\Models\Review;
-class HalamanUser extends Component
+class ReviewAdmin extends Component
 {
-    public $wisata_id, $pemiliklahan_id, $kategori_id, $potensi_id;
-    public $nama_wisata, $nama_kategori, $tahun, $images;
+    public $wisata_id, $review_id;
+    public $nama_wisata, $nama_reviewer, $ulasan, $rating;
     protected $kategoris, $wisata, $sum_luas_tanah, $petas;
 
     public function render()

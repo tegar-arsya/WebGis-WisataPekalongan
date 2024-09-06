@@ -97,9 +97,8 @@
                         <th>No</th>
                         <th>Nama Wisata</th>
                         <th>Kategori</th>
-                        <th>Luas Wisata (M)</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
+                        <th>Ulasan</th>
+                        <th>Rating</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,9 +107,8 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->nama_wisata }}</td>
                         <td>{{ $item->nama_kategori }}</td>
-                        <td>{{ $item->luas_wisata }}</td>
-                        <td>{{ $item->latitude }}</td>
-                        <td>{{ $item->longitude }}</td>
+                        <td>{{ $item->ulasan }}</td>
+                        <td>{{ $item->rating }}</td>
                     </tr>
                     @endforeach
                 </tbody>

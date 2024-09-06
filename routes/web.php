@@ -11,11 +11,13 @@ use App\Http\Livewire\Desa as LivewireDesa;
 use App\Http\Livewire\PotensiWisata as LivewirePotensi;
 use App\Http\Livewire\Pemiliklahan as LivewirePemiliklahan;
 use App\Http\Livewire\WisataComponent as LivewireWisata;
-
+use App\Http\Controllers\ReviewController;
 Auth::routes();
 
 // Rute yang tidak memerlukan autentikasi
 Route::get('/', HalamanUser::class)->name('user');
+Route::get('/reviews/{wisata}', [ReviewController::class, 'index']);
+Route::post('/reviews', [ReviewController::class, 'store']);
 // Rute yang memerlukan autentikasi
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,3 +1,30 @@
+<style>
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6;
+    }
+</style>
 <div>
 
     <!-- Topbar Start -->
@@ -58,16 +85,16 @@
                             style="color: #000000; transition: color 0.2s ease;">Home</a>
                         <a href="#visimisi" class="nav-item nav-link"
                             style="color: #000000; transition: color 0.2s ease;">Visi Misi</a>
-                        <a href="#struktur" class="nav-item nav-link"
-                            style="color: #000000; transition: color 0.2s ease;">Struktur Organisasi</a>
+                        {{-- <a href="#struktur" class="nav-item nav-link"
+                            style="color: #000000; transition: color 0.2s ease;">Struktur Organisasi</a> --}}
                         <a href="#infotanah" class="nav-item nav-link"
-                            style="color: #000000; transition: color 0.2s ease;">Informasi Tanah</a>
+                            style="color: #000000; transition: color 0.2s ease;">Kategori Wisata</a>
                         <a href="#desa" class="nav-item nav-link"
-                            style="color: #000000; transition: color 0.2s ease;">Data Desa/Kel.</a>
+                            style="color: #000000; transition: color 0.2s ease;">Objek Wisata</a>
                         <a href="#lahan" class="nav-item nav-link"
-                            style="color: #000000; transition: color 0.2s ease;">Data Lahan</a>
+                            style="color: #000000; transition: color 0.2s ease;">Data Wisata</a>
                         <a href="#potensi" class="nav-item nav-link"
-                            style="color: #000000; transition: color 0.2s ease;">Peta Potensi</a>
+                            style="color: #000000; transition: color 0.2s ease;">Peta Wisata</a>
                     </div>
                 </div>
             </nav>
@@ -172,46 +199,26 @@
             </div>
         </div>
     </div>
-<div id="infotanah" class="container-fluid pt-5 pb-3">
-    <div class="container">
-        <h6 class="text-primary text-uppercase text-center font-weight-medium mb-3">Tentang</h6>
-        <h1 class="display-4 text-center mb-5">Kategori</h1>
-        <div class="row">
-            @foreach ($kategoris as $kategori)
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="bg-light text-center mb-2 pt-4 shadow-sm rounded kategori-card" 
-                         data-kategori-id="{{ $kategori->id }}"
-                         onclick="showKategoriMap({{ $kategori->id }}, '{{ $kategori->nama_kategori }}')">
-                        <div class="d-inline-flex flex-column align-items-center justify-content-center bg-warning rounded-circle shadow mt-2 mb-4"
-                            style="width: 200px; height: 200px; border: 15px solid #cd03ff;">
-                            <h3 class="text-primary font-weight-bold">
-                                {{ $kategori->nama_kategori }}
-                            </h3>
+    <div id="infotanah" class="container-fluid pt-5 pb-3">
+        <div class="container">
+            <h6 class="text-primary text-uppercase text-center font-weight-medium mb-3">Tentang</h6>
+            <h1 class="display-4 text-center mb-5">Kategori</h1>
+            <div class="row">
+                @foreach ($kategoris as $kategori)
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="bg-light text-center mb-2 pt-4 shadow-sm rounded kategori-card">
+                            <div class="d-inline-flex flex-column align-items-center justify-content-center bg-warning rounded-circle shadow mt-2 mb-4"
+                                style="width: 200px; height: 200px; border: 15px solid #cd03ff;">
+                                <h3 class="text-primary font-weight-bold">
+                                    {{ $kategori->nama_kategori }}
+                                </h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-<!-- Tambahkan modal untuk peta kategori -->
-<div class="modal fade" id="kategoriMapModal" tabindex="-1" role="dialog" aria-labelledby="kategoriMapModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="kategoriMapModalLabel">Peta Wisata Kategori</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="kategoriMap" style="height: 400px;"></div>
+                @endforeach
             </div>
         </div>
     </div>
-</div>
-    <!-- Pricing Plan End -->
 
     <!-- Services Start -->
     <div id="desa" class="container-fluid pt-5 pb-3">
@@ -227,26 +234,31 @@
                 @foreach ($wisata as $wisata)
                     <div class="col-lg-3 col-md-6 pb-1 desas-item" data-nama="{{ $wisata->nama_wisata }}">
                         <div class="d-flex flex-column align-items-center justify-content-center text-center bg-light mb-4 px-4 desa-card"
-                            style="height: 400px; cursor: pointer;"
-                            onclick="openModal(
-                            '{{ $wisata->id }}',
-                                '{{ $wisata->nama_wisata }}',
-                                '{{ $wisata->nama_kategori }}',
-                                `{{ addslashes($wisata->deskripsi) }}`,
-                                  {{ json_encode(array_map('asset', $wisata->images)) }},
-                                {{ $wisata->latitude }},
-                                {{ $wisata->longitude }},
-                            )">
-                            
+                            style="height: 400px; cursor: pointer;">
                             <div class="d-inline-flex align-items-center justify-content-center bg-success shadow rounded-circle mb-4 shadow"
                                 style="width: 200px; height: 200px;">
-                                @if(is_array($wisata->images) && count($wisata->images) > 0)
-                                <!-- Loop through each image -->
-                                <img src="{{ asset($wisata->images[0]) }}" class="img-fluid "
-                                    style="width: 100%; height: 100%; object-fit: cover;">
-                            @endif
+                                @if (is_array($wisata->images) && count($wisata->images) > 0)
+                                    <img src="{{ asset($wisata->images[0]) }}" class="img-fluid "
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                @endif
                             </div>
+                            {{-- <h3 class="font-weight-bold m-0 mb-1 text-uppercase">id Wisata: {{ $wisata->id }}</h3> --}}
                             <h3 class="font-weight-bold m-0 mb-1 text-uppercase">{{ $wisata->nama_wisata }}</h3>
+                            <!-- Tombol posisi kanan -->
+                            <!-- Button Container -->
+                            <div class="w-100 d-flex justify-content-between mt-3">
+                                <!-- Tombol posisi kiri -->
+                                <button type="button" class="btn btn-info btn-sm"
+                                    onclick="showReview({{ $wisata->id }}); event.stopPropagation();">
+                                    <i class="fa fa-comment"></i> Lihat Review
+                                </button>
+
+                                <!-- Tombol posisi kanan -->
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    onclick="openModal('{{ $wisata->id }}', '{{ $wisata->nama_wisata }}', '{{ $wisata->nama_kategori }}', `{{ addslashes($wisata->deskripsi) }}`, {{ json_encode(array_map('asset', $wisata->images)) }}, {{ $wisata->latitude }}, {{ $wisata->longitude }}); event.stopPropagation();">
+                                    <i class="fa fa-eye"></i> Detail Wisata
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -256,40 +268,95 @@
 
     <!-- Modal -->
     <div class="modal fade" id="wisataModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
-    aria-hidden="true" wire:ignore.self>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Nama Wisata</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="carouselImages" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner" id="modalImageContainer"></div>
-                    <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+        aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Nama Wisata</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-               
-                <p><strong>Nama Wisata:</strong> <span id="modalNama"></span></p>
-                <p><strong>Kategori:</strong> <span id="modalKategori"></span></p>
-                <p><strong>Deskripsi:</strong> <span id="modalDeskripsi"></span></p>
+                <div class="modal-body">
+                    <div id="carouselImages" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="modalImageContainer"></div>
+                        <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <p><strong>Nama Wisata:</strong> <span id="modalNama"></span></p>
+                    <p><strong>Kategori:</strong> <span id="modalKategori"></span></p>
+                    <p><strong>Deskripsi:</strong> <span id="modalDeskripsi"></span></p>
 
-                <div class="m-2" id="mapModal" style="height: 600px;" wire:ignore></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="m-2" id="mapModal" style="height: 600px;" wire:ignore></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal for Review -->
+    <!-- Modal for Review -->
+    <div class="modal fade" id="wisataModalReview" tabindex="-1" role="dialog" aria-labelledby="modalTitleReview"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitleReview">Review Wisata</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display review content dynamically -->
+                    <div id="reviewContent" class="mb-4">
+                        <!-- Reviews table -->
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama Reviewer</th>
+                                    <th>Rating</th>
+                                    <th>Ulasan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewTableBody">
+                                <!-- Reviews will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Form to add new review -->
+                    <div class="border-top pt-3 mt-3">
+                        <h5 class="mb-3">Tambahkan Ulasan Baru</h5>
+                        <form id="reviewForm">
+                            <div class="form-group">
+                                <label for="reviewerName">Nama Anda</label>
+                                <input type="text" id="reviewerName" class="form-control"
+                                    placeholder="Masukkan Nama" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewRating">Rating</label>
+                                <input type="number" id="reviewRating" class="form-control" max="5"
+                                    min="1" placeholder="Rating 1-5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewText">Ulasan</label>
+                                <textarea id="reviewText" class="form-control" placeholder="Masukkan Ulasan" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Kirim Ulasan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Services End -->
@@ -322,8 +389,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="d-flex flex-column align-items-center justify-content-center bg-light h-100 py-5 px-3">
-                        <img src="pekalonganJPG.png"
-                            alt="" class="img-fluid m-2" width="30%">
+                        <img src="pekalonganJPG.png" alt="" class="img-fluid m-2" width="30%">
                         <img src="{{ asset('img/pekalongan.jpg') }}" alt="" class="img-fluid m-2">
                     </div>
                 </div>
@@ -496,26 +562,26 @@
             document.getElementById('modalNama').textContent = nama_wisata;
             document.getElementById('modalKategori').textContent = nama_kategori;
             document.getElementById('modalDeskripsi').innerHTML = deskripsi.replace(/\n/g, '<br>');
-            
+
             const modalImageContainer = document.getElementById('modalImageContainer');
             modalImageContainer.innerHTML = '';
 
             // Check if imageUrl is an array and contains images
             if (Array.isArray(imageUrl) && imageUrl.length > 0) {
-            imageUrl.forEach(function(url, index) {
-                const divElement = document.createElement('div');
-                divElement.classList.add('carousel-item');
-                if (index === 0) {
-                    divElement.classList.add('active'); // Set the first image as active
-                }
+                imageUrl.forEach(function(url, index) {
+                    const divElement = document.createElement('div');
+                    divElement.classList.add('carousel-item');
+                    if (index === 0) {
+                        divElement.classList.add('active'); // Set the first image as active
+                    }
 
-                const imgElement = document.createElement('img');
-                imgElement.src = url;
-                imgElement.classList.add('d-block', 'w-100');
-                divElement.appendChild(imgElement);
-                modalImageContainer.appendChild(divElement);
-            });
-        }
+                    const imgElement = document.createElement('img');
+                    imgElement.src = url;
+                    imgElement.classList.add('d-block', 'w-100');
+                    divElement.appendChild(imgElement);
+                    modalImageContainer.appendChild(divElement);
+                });
+            }
             $('#wisataModal').modal('show');
 
             $('#wisataModal').on('shown.bs.modal', function() {
@@ -605,19 +671,103 @@
                 routeToMarker(latitude, longitude);
             });
         }
-        // Event listener untuk menutup modal dengan klik tombol close
-        document.querySelector('.close').addEventListener('click', function() {
-            $('#wisataModal').modal('hide');
+
+        function showReview(wisataId) {
+    // Fetch reviews for the given wisata ID using AJAX
+    fetch(`/reviews/${wisataId}`)
+        .then(response => response.json())
+        .then(reviews => {
+            const reviewContent = document.getElementById('reviewContent');
+            reviewContent.innerHTML = ''; // Clear previous reviews
+
+            // Populate reviews in modal
+            if (reviews.length > 0) {
+                const reviewTable = `
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Reviewer</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${reviews.map(review => `
+                        <tr>
+                            <td>${review.nama_reviewer}</td>
+                            <td>${review.rating}/5</td>
+                            <td>${review.ulasan}</td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>`;
+                reviewContent.innerHTML = reviewTable;
+            } else {
+                reviewContent.innerHTML = '<p>No reviews yet.</p>';
+            }
+
+            // Show the review modal
+            $('#wisataModalReview').modal('show');
         });
 
-        // Event listener untuk tombol tutup modal di footer
-        document.querySelector('.btn-secondary').addEventListener('click', function() {
-            $('#wisataModal').modal('hide');
-        });
-        window.addEventListener('openModal', event => {
-        $('#wisataModal').modal('show');
+    // Handle review form submission
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const reviewerName = document.getElementById('reviewerName').value;
+        const reviewRating = document.getElementById('reviewRating').value;
+        const reviewText = document.getElementById('reviewText').value;
 
+        fetch(`/reviews`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    wisata_id: wisataId,
+                    nama_reviewer: reviewerName,
+                    rating: reviewRating,
+                    ulasan: reviewText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Review submitted successfully!',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        $('#wisataModalReview').modal('hide');
+                        // Refresh reviews if needed
+                        showReview(wisataId);
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to submit review',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
     });
+}
+
+        // Prevent the modal from opening when clicking on the card itself
+        document.querySelectorAll('.desa-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
+
+        // Event listener for closing modals
+        document.querySelectorAll('.close, .btn-secondary').forEach(button => {
+            button.addEventListener('click', () => {
+                $('#wisataModal').modal('hide');
+                $('#wisataModalReview').modal('hide');
+            });
+        });
     </script>
     <script>
         document.getElementById('searchInput').addEventListener('input', function() {
@@ -634,5 +784,5 @@
             });
         });
     </script>
-
+    <script></script>
 </div>

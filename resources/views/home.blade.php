@@ -49,6 +49,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-3 mt-3">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-danger text-white text-center py-3">
+                                    <i class="fas fa-comments fa-2x"></i>
+                                    <h5 class="card-title mt-2">Review</h5>
+                                </div>
+                                <div class="card-body bg-light text-dark">
+                                    <h1 class="text-center display-4">{{ count($reviewsuser) }}</h1>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
